@@ -34,6 +34,15 @@ image: images/meru.png
 2. Discord Botを作れるようになる！
 3. プログラミングの楽しさを知る！
 
+<br>
+<br>
+
+## おことわり
+
+- 今日はとりあえず「動くもの」を作ることを目指します。そのため、細かい説明を省略している部分があります。もしわからない事があれば、TAなどに遠慮なく聞いてください！
+- 進行の都合上、ある程度できる人には退屈な時間があるかもしれません。その場合はどんどん次のステップに進んでもらっても大丈夫です。
+- **全てを講座通りに作る必要はありません！むしろ積極的な改変・改造を推奨しています！**
+
 ---
 
 ## 環境構築
@@ -41,15 +50,15 @@ image: images/meru.png
 今回使用するプログラミング言語はJavaScriptです。
 JavaScriptは元々Webブラウザで動く言語でしたが、Node.jsの登場により今では様々な用途で使われています。
 
-ということで、JavaScriptを動かすための環境を構築していきましょう！
+以下のツールをインストールします。
 
-- VSCodeのインストール
-- Gitのインストール
-- miseのインストール
+- VSCode <logos-visual-studio-code /> のインストール
+- Git <logos-git-icon /> のインストール
+- miseのインストール(Node.js <logos-nodejs-icon /> のインストール)
 
 ---
 
-### VSCodeのインストール
+### VSCodeのインストール <logos-visual-studio-code />
 
 VSCodeはMicrosoftが開発しているオープンソースのエディタです。
 拡張機能が豊富で、JavaScriptの開発にも最適です。
@@ -70,7 +79,7 @@ Linuxはディストリビューション毎に異なるので各自調べてく
 
 ---
 
-### Gitのインストール
+### Gitのインストール <logos-git-icon />
 
 Gitはバージョン管理システムです。主にソースコードの管理に使用されますが、レポートやドキュメントの管理にも使えます。
 今回はGitHubというサイトからソースコードを落とすためだけに使います。
@@ -124,6 +133,221 @@ mise doctor
 
 ---
 
+## Botアカウントの作成
+
+[Discord Developer Portal](https://discord.com/developers/applications)にアクセスしてBotアカウントを作成します。
+
+1. 「New Application」をクリックして、好きな名前を入力して「Create」をクリックします。
+2. 左側のメニューから「Bot」を選択し、「Reset Token」をクリックしてトークンを生成します。
+3. トークンをコピーしておきます。後で使用します。なお、トークンは一度しか表示されません。コピーしたら大切に保管してください。
+  **トークンは非常に大切な情報です！アカウントのパスワードなどと同様、絶対に他人に教えないでください。**
+4. 「Privileged Gateway Intents」の欄の3つのスイッチを全てONにします。
+
+---
+
+## Botアカウントの作成
+
+5. 左側のメニューから「OAuth2」を選択します。
+6. 「OAuth2 URL Generator」の欄で以下のように設定します。
+   - Scopes: `bot`
+   - Bot Permissions: `View Channels`, `Send Messages`, `Read Message History`, `Add Reactions`, `Use Slash Commands`
+
+![](./images/permissions.png){width=50%}
+
+---
+
+## Botアカウントの作成
+
+7. 下の「Generated URL」をクリックして、生成されたURLをコピーします。
+8. コピーしたURLをブラウザに貼り付けて、Botをサーバーに追加します。
+  <br>
+  (テスト用に適当なサーバーがあると便利です！)
+9. うまくいけば、サーバーにBotが追加されています 🎉
+
+![](./images/bot_success.png){width=28%}
+
+---
+
 ## ソースコードの準備
 
-今回使用するソースコードはGitHubに公開で公開しています。
+今回使用するソースコードはGitHubで公開しています。
+
+https://github.com/tuatmcc/discord-bot-hands-on
+
+「Code」→「HTTPS」をクリックして表示されるURLをコピーしてください。
+
+コピーしたURLを使って、以下のコマンドでソースコードをクローンします。
+
+```bash
+git clone https://github.com/tuatmcc/discord-bot-hands-on.git
+```
+
+クローンすると、`discord-bot-hands-on`というディレクトリが作成されます。それをVSCodeで開いてください。
+
+```bash
+code discord-bot-hands-on
+```
+
+---
+
+## プロジェクトの初期化
+
+VSCodeで開いたら、以下のコマンドを実行してNode.jsのインストールと依存関係のインストールを行います。
+
+```bash
+# Node.jsのインストール
+mise install
+
+# 依存関係のインストール
+npm install
+```
+
+リポジトリには以下のようなものが含まれています。
+
+- `src/`: ソースコードのディレクトリ。この中のコードを編集してプログラミングしていきます。
+- `package.json`: プロジェクトの設定ファイル。依存関係やスクリプトが定義されています。
+- `package-lock.json`: 依存関係のバージョンを固定するためのファイル。基本的に直接編集することはありません。
+- `node_modules/`: 依存関係のライブラリがインストールされるディレクトリ。基本的に直接編集することはありません。
+- `mise.toml`: miseの設定ファイル。
+
+---
+
+## プログラムを動かしてみる
+
+まずは、プログラムを動かしてみます。
+プログラムの動作にはBotのトークンが必要です。
+
+`.env`を作成して、以下のように記述してください。
+
+```bash
+DISCORD_BOT_TOKEN = "<Botのトークン>"
+```
+
+以下のコマンドでプログラムを実行します。
+
+```bash
+npm run start
+```
+
+初めから書かれているコードはオウム返しするだけのBotです。
+何かしらメッセージを送ると、Botが同じメッセージを返してくれます。
+
+![](./images/bot_init.png)
+
+---
+
+## ソースコードを読んでみる
+
+`src/app.js`を開いてソースコードを見てみましょう。
+
+````md magic-move {lines: true}
+```js {*}
+import { Client } from "discord.js";
+
+const client = new Client({
+  intents: ["Guilds", "GuildMembers", "GuildMessages", "MessageContent"],
+});
+
+client.on("ready", () => {
+  console.log(`Logged in as ${client.user.tag}!`);
+});
+
+client.on("messageCreate", async (message) => {
+  if (message.author.bot) return;
+
+  console.log(`Message received: ${message.content}`);
+
+  await message.reply(message.content);
+});
+
+client.login(process.env["DISCORD_BOT_TOKEN"]);
+```
+
+```js {1-8|1-2|4-8}
+// ライブラリのインポート
+import { Client } from "discord.js";
+
+// クライアントを作成
+const client = new Client({
+  // Botの動作に必要な権限を指定
+  intents: ["Guilds", "GuildMembers", "GuildMessages", "MessageContent"],
+});
+
+client.on("ready", () => {
+  console.log(`Logged in as ${client.user.tag}!`);
+});
+
+client.on("messageCreate", async (message) => {
+  if (message.author.bot) return;
+
+  console.log(`Message received: ${message.content}`);
+
+  await message.reply(message.content);
+});
+
+client.login(process.env["DISCORD_BOT_TOKEN"]);
+```
+
+```js {1-5|3-4|7-17|9-10|12-13|15-16|19-20}
+// Botの準備ができたら実行される
+client.on("ready", () => {
+  // Botの名前を表示
+  console.log(`Logged in as ${client.user.tag}!`);
+});
+
+// メッセージを受信したら実行される
+client.on("messageCreate", async (message) => {
+  // Botが送信したメッセージは無視する(無限ループ防止)
+  if (message.author.bot) return;
+
+  // 受信したメッセージをコンソールに表示
+  console.log(`Message received: ${message.content}`);
+
+  // 受信したメッセージをそのまま返信
+  await message.reply(message.content);
+});
+
+// Botを起動
+client.login(process.env["DISCORD_BOT_TOKEN"]);
+```
+````
+
+---
+
+## ping/pongを作ってみる
+
+このままだと全てのメッセージに対して反応するので結構うるさいです。
+そこで、`ping`と送ると`pong`と返すようにしてみましょう。
+
+````md magic-move {lines: true}
+```js {*|9-10}
+// メッセージを受信したら実行される
+client.on("messageCreate", async (message) => {
+  // Botが送信したメッセージは無視する(無限ループ防止)
+  if (message.author.bot) return;
+
+  // 受信したメッセージをコンソールに表示
+  console.log(`Message received: ${message.content}`);
+
+  // 受信したメッセージをそのまま返信
+  await message.reply(message.content);
+});
+```
+
+```js {9-13}
+// メッセージを受信したら実行される
+client.on("messageCreate", async (message) => {
+  // Botが送信したメッセージは無視する(無限ループ防止)
+  if (message.author.bot) return;
+
+  // 受信したメッセージをコンソールに表示
+  console.log(`Message received: ${message.content}`);
+
+  // 受信したメッセージが"!ping"なら
+  if (message.content === "!ping") {
+    // "pong!"と返信
+    await message.reply("pong!");
+  }
+});
+```
+````
