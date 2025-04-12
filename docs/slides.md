@@ -470,3 +470,102 @@ if (message.content.startsWith("!janken")) {
 ---
 
 ## 天気予報を教えてくれるコマンドを作ってみる
+
+`!weather`と送ると、天気予報を教えてくれるコマンドを作ってみましょう。
+APIを使って天気予報を取得します。
+
+APIは色々なものがありますが、今回は[天気予報API (livedoor天気互換)](https://weather.tsukumijima.net/)を利用します。
+これはAPIキーが不要で、無料で使えるので特に登録などは必要ありません。
+
+`https://weather.tsukumijima.net/api/forecast/city/<都市ID>`のURLにGETリクエストを送ると、JSON形式で天気予報が返ってきます。
+
+東京の場合は`130010`、大阪の場合は`270000`、札幌の場合は`016010`です。
+
+他の都市IDも以下のURLから確認できます。(`Ctrl + F` / `Command + F`で検索すると便利です)
+
+https://weather.tsukumijima.net/primary_area.xml
+
+---
+
+## 天気予報を教えてくれるコマンドを作ってみる
+
+まずは、天気予報の概要だけを取得して表示するようにしてみましょう。
+
+```js {*}{lines: true}
+if (message.content === "!weather") {
+  // 天気予報APIにGETリクエストを送る
+  const response = await fetch(
+    "https://weather.tsukumijima.net/api/forecast/city/130010"
+  );
+  // エラーの場合はエラーメッセージを表示して終了
+  if (!response.ok) {
+    await message.reply("天気情報を取得できませんでした。");
+    return;
+  }
+  // レスポンスをJSON形式に変換
+  const data = await response.json();
+
+  // 天気予報の概要を取得して表示
+  const title = data.title;
+  const overview = data.description.text;
+  await message.reply(`# ${title}\n${overview}`);
+}
+```
+
+---
+
+## 天気予報を教えてくれるコマンドを作ってみる
+
+`!weather`と送ると、天気予報の概要が表示されるようになります。
+
+![](./images/bot_weather.png)
+
+---
+
+## 天気予報を教えてくれるコマンドを作ってみる
+
+天気の概要だけでは面白くないので、`"forecasts"`の中から天気の情報を取得して表示するようにしてみましょう。
+
+````md magic-move {lines: true}
+```js {*}
+// ...
+
+// 天気予報の概要を取得して表示
+const title = data.title;
+const overview = data.description.text;
+await message.reply(`# ${title}\n${overview}`);
+```
+
+```js {*|3-4|5-6|7-15|17-18}
+// ...
+
+// 返信するメッセージを変数で持つ
+let reply = "";
+// タイトルを追加
+reply += `# ${data.title}\n`;
+// forecastsの中を順番に処理
+for (const forecast of data.forecasts) {
+  // 日付の文字列をDateオブジェクトに変換
+  const date = new Date(forecast.date);
+  // 〇月〇日の形式に変換して追加
+  reply += `## ${date.getMonth() + 1}月${date.getDate()}日\n`;
+  // 天気を追加
+  reply += `天気: ${forecast.telop}\n`;
+}
+
+// 返信
+await message.reply(reply);
+```
+````
+
+---
+
+## 天気予報を教えてくれるコマンドを作ってみる
+
+`!weather`と送ると、それぞれの日の天気が表示されるようになります。
+
+![](./images/bot_weather2.png)
+
+`"forecasts"`の中には、天気以外にも最高・最低気温や降水確率などの情報も含まれています。
+それらの情報を表示してもいいですし、`!weather <都市ID>`のように指定した都市の天気を表示するようにしても面白いと思います。
+天気に応じた絵文字を表示するのもいいですね ☀️☁️🌧️
