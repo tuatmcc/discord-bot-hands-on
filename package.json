@@ -1,0 +1,14 @@
+{
+  "name": "discord-bot-hands-on",
+  "version": "0.1.0",
+  "main": "src/app.js",
+  "license": "MIT",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "start": "node --env-file=.env src/app.js"
+  },
+  "dependencies": {
+    "discord.js": "^14.18.0"
+  }
+}
