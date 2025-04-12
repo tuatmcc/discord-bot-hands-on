@@ -234,6 +234,8 @@ npm run start
 
 ![](./images/bot_init.png)
 
+なお、終了したい場合は`Ctrl + C`/`Command + C`で終了できます。
+
 ---
 
 ## ソースコードを読んでみる
@@ -272,23 +274,9 @@ const client = new Client({
   // Botの動作に必要な権限を指定
   intents: ["Guilds", "GuildMembers", "GuildMessages", "MessageContent"],
 });
-
-client.on("ready", () => {
-  console.log(`Logged in as ${client.user.tag}!`);
-});
-
-client.on("messageCreate", async (message) => {
-  if (message.author.bot) return;
-
-  console.log(`Message received: ${message.content}`);
-
-  await message.reply(message.content);
-});
-
-client.login(process.env["DISCORD_BOT_TOKEN"]);
 ```
 
-```js {1-5|3-4|7-17|9-10|12-13|15-16|19-20}
+```js {*|1-5|3-4|7-17|9-10|12-13|15-16|19-20}
 // Botの準備ができたら実行される
 client.on("ready", () => {
   // Botの名前を表示
@@ -334,7 +322,7 @@ client.on("messageCreate", async (message) => {
 });
 ```
 
-```js {9-13}
+```js {9-15}
 // メッセージを受信したら実行される
 client.on("messageCreate", async (message) => {
   // Botが送信したメッセージは無視する(無限ループ防止)
@@ -347,7 +335,138 @@ client.on("messageCreate", async (message) => {
   if (message.content === "!ping") {
     // "pong!"と返信
     await message.reply("pong!");
+    // 処理終了
+    return;
   }
 });
 ```
 ````
+
+---
+
+## ping/pongを作ってみる
+
+再度プログラムを実行すると、`!ping`と送ると`pong!`と返してくれるようになります。
+また、それ以外のメッセージには反応しません。
+
+![](./images/bot_pingpong.png)
+
+`if`を使うことでメッセージの内容を条件にして処理を分岐させることができます。
+
+`if`の中の条件式を変更すれば、`!ping`以外のメッセージにも反応させることができますし、`if`を増やしていけば他のメッセージに反応させることもできます。
+
+```js
+if (message.content === "!ping") {
+  await message.reply("pong!");
+  return;
+}
+if (message.content === "!hello") {
+  await message.reply("Hello!");
+  return;
+}
+```
+
+---
+
+## じゃんけんコマンドを作ってみる
+
+次はじゃんけんを作ってみましょう。
+`!janken`と送ると、ランダムにじゃんけんの手を返すようにします。
+
+```js {*|1-2|3-4|5-6|7-8|10-12}{lines: true}
+// 受信したメッセージが"!janken"なら
+if (message.content === "!janken") {
+  // じゃんけんの手
+  const hands = ["グー", "チョキ", "パー"];
+  // 0〜2のランダムな整数を生成
+  const choiceIndex = Math.floor(Math.random() * hands.length);
+  // 選んだ手を取得
+  const choice = hands[choiceIndex];
+
+  // 選んだ手を返信して終了
+  await message.reply(`じゃんけんは${choice}！`);
+  return;
+}
+```
+
+![](./images/bot_janken.png)
+
+---
+
+## じゃんけんコマンドを作ってみる
+
+このままだと勝敗がわからないので、勝敗を判定して返すようにしてみましょう。
+
+````md magic-move {lines: true, maxHeight: '100px'}
+```js
+// 受信したメッセージが"!janken"なら
+if (message.content === "!janken") {
+  // じゃんけんの手
+  const hands = ["グー", "チョキ", "パー"];
+  // 0〜2のランダムな整数を生成
+  const choiceIndex = Math.floor(Math.random() * hands.length);
+  // 選んだ手を取得
+  const choice = hands[choiceIndex];
+
+  // 選んだ手を返信して終了
+  await message.reply(`じゃんけんは${choice}！`);
+  return;
+}
+```
+
+```js {*|1-2|6-8|9-13}
+// 受信したメッセージが"!janken"から始まっていたら
+if (message.content.startsWith("!janken")) {
+  // じゃんけんの手
+  const hands = ["グー", "チョキ", "パー"];
+
+  // メッセージを空白で分割してユーザーの手を取得
+  const args = message.content.split(" ");
+  const userHand = args[1];
+  // 引数が指定されていない場合はエラーを表示して終了
+  if (!hands.includes(userHand)) {
+    await message.reply("グー、チョキ、パーのいずれかを指定してください。");
+    return;
+  }
+
+  // 0〜2のランダムな整数を生成
+  const choiceIndex = Math.floor(Math.random() * hands.length);
+  // 選んだ手を取得
+  const choice = hands[choiceIndex];
+
+  // ...
+```
+
+```js {*|3-5|3,6-11|3,12-14}
+  // ...
+
+  // 勝敗を判定
+  if (userHand === choice) {
+    await message.reply(`わたし: ${choice}\nあいこ！`);
+  } else if (
+    (userHand === "グー" && choice === "チョキ") ||
+    (userHand === "チョキ" && choice === "パー") ||
+    (userHand === "パー" && choice === "グー")
+  ) {
+    await message.reply(`わたし: ${choice}\nあなたの勝ち！`);
+  } else {
+    await message.reply(`わたし: ${choice}\nあなたの負け！`);
+  }
+}
+```
+````
+
+---
+
+## じゃんけんコマンドを作ってみる
+
+ユーザーの手に応じて勝敗を判定するようにしました。
+`!janken <手>`と送ると、Botがランダムにじゃんけんの手を選び、勝敗を判定して返してくれます。
+
+![](./images/bot_janken2.png)
+
+`if`文と簡単な計算を組み合わせるだけでも結構色々なことができます。`!dice 3d6`のようにサイコロを振るコマンドとかも作れます。
+
+---
+
+## 天気予報を教えてくれるコマンドを作ってみる
