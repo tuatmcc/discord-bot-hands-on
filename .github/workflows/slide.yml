@@ -1,0 +1,64 @@
+name: Deploy Slide
+on:
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions: {}
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    cancel-timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup mise
+        uses: jdx/mise-action@v2
+
+      - name: Get npm cache dir
+        id: npm
+        run: echo "cache-dir=$(npm config get cache)" >> "$GITHUB_OUTPUT"
+
+      - name: Restore Cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.npm.outputs.cache-dir }}
+          key: ${{ runner.os }}-npm-${{ hashFiles('docs/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-
+
+      - name: Install dependencies
+        working-directory: ./docs
+        run: npm ci
+
+      - name: Build
+        working-directory: ./docs
+        run: npm run build -- --base "/${GITHUB_REPOSITORY#${GITHUB_REPOSITORY_OWNER}/}/"
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./docs/dist
+
+  deploy:
+    runs-on: ubuntu-24.04
+    needs: [build]
+    cancel-timeout-minutes: 5
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - name: Deploy
+        id: deploy
+        uses: actions/deploy-pages@v4
