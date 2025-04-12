@@ -16,7 +16,7 @@ class: text-center
 
 ---
 layout: image-right
-image: images/meru.png
+image: /assets/meru.png
 ---
 
 ## 自己紹介
