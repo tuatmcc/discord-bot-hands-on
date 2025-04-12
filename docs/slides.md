@@ -583,3 +583,64 @@ APIを使うことで、様々なデータを取得して自分のプログラ�
 
 今回のプログラムを応用していくことで、面白いBotや便利なツールを作ることができます。
 ぜひ、色々なアイデアを考えてみてください。
+
+---
+
+## おまけ: 今までに作った・遭遇した~~クソ~~Bot達
+
+<br>
+
+### スーパーチャットBot
+
+YouTubeのスーパーチャット風の画像を生成してくれるBot。
+
+![](./images/example_superchat.png){width=80%}
+
+---
+
+## おまけ: 今までに作った・遭遇した~~クソ~~Bot達
+
+<br>
+
+### 草Bot
+
+「草」と発言するとGitHubのContribution数と画像を返してくれるBot。
+
+![](./images/example_grass.png)
+
+---
+
+## おまけ: 今までに作った・遭遇した~~クソ~~Bot達
+
+<br>
+
+### VC入退出通知Bot
+
+VCに入ったり退出したりすると、通知してくれるBot。
+
+![](./images/example_vc.png)
+
+---
+
+## おまけ: 今までに作った・遭遇した~~クソ~~Bot達
+
+<br>
+
+### VC時間グラフ化Bot
+
+累計VC時間をグラフにしてくれるBot。
+
+![](./images/example_graph.png){width=70%}
+
+---
+
+## おまけ: 今までに作った・遭遇した~~クソ~~Bot達
+
+<br>
+
+### LinuxターミナルBot
+
+Linuxのコマンドを実行できるBot。
+https://qiita.com/BonyChops/items/2774aa65037edb047111
+
+![](./images/example_terminal.png){width=50%}
