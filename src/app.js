@@ -10,7 +10,10 @@ client.on("ready", () => {
 
 client.on("messageCreate", async (message) => {
   if (message.author.bot) return;
-  console.log("Message received:", message.content);
+
+  console.log(`Message received: ${message.content}`);
+
+  await message.reply(message.content);
 });
 
 client.login(process.env["DISCORD_BOT_TOKEN"]);
