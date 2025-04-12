@@ -1,0 +1,7 @@
+[tools.node]
+version = "22.14.0"
+backend = "core:node"
+
+[tools."npm:pnpm"]
+version = "10.8.0"
+backend = "npm:pnpm"
