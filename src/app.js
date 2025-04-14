@@ -1,5 +1,12 @@
+// Gemini APIのライブラリをインポート
+import { GoogleGenerativeAI } from "@google/generative-ai";
 // ライブラリのインポート
 import { Client } from "discord.js";
+
+// APIキーを使ってAPIクライアントを作成
+const genAI = new GoogleGenerativeAI(process.env["GEMINI_API_KEY"]);
+// 使用するモデルを指定
+const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
 
 // クライアントを作成
 const client = new Client({
