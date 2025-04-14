@@ -61,6 +61,25 @@ client.on("messageCreate", async (message) => {
       await message.reply(`わたし: ${choice}\nあなたの負け！`);
     }
   }
+
+  // 受信したメッセージが"!weather"なら
+  if (message.content === "!weather") {
+    // 天気予報APIにGETリクエストを送る
+    const url = "https://weather.tsukumijima.net/api/forecast/city/130010";
+    const response = await fetch(url);
+    // エラーの場合はエラーメッセージを表示して終了
+    if (!response.ok) {
+      await message.reply("天気情報を取得できませんでした。");
+      return;
+    }
+    // レスポンスをJSON形式に変換
+    const data = await response.json();
+
+    // 天気予報の概要を取得して表示
+    const title = data.title;
+    const overview = data.description.text;
+    await message.reply(`# ${title}\n${overview}`);
+  }
 });
 
 // Botを起動
