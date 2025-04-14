@@ -176,6 +176,7 @@ git clone https://github.com/tuatmcc/discord-bot-hands-on.git
 ```
 
 クローンすると、`discord-bot-hands-on`というディレクトリが作成されます。それをVSCodeで開いてください。
+VSCodeから開くこともできますし、以下のコマンドを使ってCLIから直接開くこともできます。
 
 ```bash
 code discord-bot-hands-on
