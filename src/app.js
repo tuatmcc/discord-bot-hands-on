@@ -28,6 +28,20 @@ client.on("messageCreate", async (message) => {
     // 処理終了
     return;
   }
+
+  // 受信したメッセージが"!janken"なら
+  if (message.content === "!janken") {
+    // じゃんけんの手
+    const hands = ["グー", "チョキ", "パー"];
+    // 0〜2のランダムな整数を生成
+    const choiceIndex = Math.floor(Math.random() * hands.length);
+    // 選んだ手を取得
+    const choice = hands[choiceIndex];
+
+    // 選んだ手を返信して終了
+    await message.reply(`じゃんけんは${choice}！`);
+    return;
+  }
 });
 
 // Botを起動
