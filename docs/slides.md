@@ -145,12 +145,11 @@ $newPath = $currentPath + ";" + $shimPath
 ```
 
 ###### Mac:
+VSCodeとの連携の都合上、Macの場合は[shims](https://mise.jdx.dev/dev-tools/shims.html)のパス追加も必要です。
 ```bash
 echo 'eval "$(mise activate zsh --shims)"' >> ~/.zprofile
 echo 'eval "$(mise activate zsh)"' >> ~/.zshrc
 ```
-
-VSCodeとの連携の都合上、Macの場合は[shims](https://mise.jdx.dev/dev-tools/shims.html)のパス追加も必要です。
 
 シェルを再起動した後、以下のコマンドで正しくインストールされているか確認できます。
 
