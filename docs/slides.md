@@ -229,13 +229,9 @@ npm install
 [Discord Developer Portal](https://discord.com/developers/applications)にアクセスしてBotアカウントを作成します。
 
 1. 「New Application」をクリックして、好きな名前を入力して「Create」をクリックします。
-<!-- 2. 左側のメニューから「Bot」を選択し、「Reset Token」をクリックしてトークンを生成します。
-3. トークンをコピーしておきます。後で使用します。なお、トークンは一度しか表示されません。コピーしたら大切に保管してください。
-  **トークンは非常に大切な情報です！アカウントのパスワードなどと同様、絶対に他人に教えないでください。**
-4. 「Privileged Gateway Intents」の欄の3つのスイッチを全てONにします。 -->
 2. 左側のメニューから「Bot」を選択し、「Privileged Gateway Intents」の欄の3つのスイッチを全てONにします。
-
-![](./images/intents.png)
+   ![](./images/intents.png){width=90%}
+3. 「Save Changes」をクリックして設定を保存します。
 
 ---
 
