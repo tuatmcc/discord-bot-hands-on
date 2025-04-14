@@ -21,8 +21,13 @@ client.on("messageCreate", async (message) => {
   // 受信したメッセージをコンソールに表示
   console.log(`Message received: ${message.content}`);
 
-  // 受信したメッセージをそのまま返信
-  await message.reply(message.content);
+  // 受信したメッセージが"!ping"なら
+  if (message.content === "!ping") {
+    // "pong!"と返信
+    await message.reply("pong!");
+    // 処理終了
+    return;
+  }
 });
 
 // Botを起動
