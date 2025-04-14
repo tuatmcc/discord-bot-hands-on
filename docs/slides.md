@@ -645,7 +645,7 @@ APIを使うことで、様々なデータを取得して自分のプログラ�
 
 ---
 
-## 発展: Gemini APIを使って生成AIを使ってみる
+## 発展: Gemini APIで生成AIを使ってみる
 
 生成AIであるGeminiのAPIを使って生成AIに質問できるコマンドを作ってみましょう。
 まず、Gemini APIのAPIキーを取得します。
@@ -669,7 +669,7 @@ npm i @google/generative-ai
 
 ---
 
-## 発展: Gemini APIを使って生成AIを使ってみる
+## 発展: Gemini APIで生成AIを使ってみる
 
 次に、Gemini APIを使うためのコードを追加します。
 
@@ -710,7 +710,7 @@ const client = new Client({
 
 ---
 
-## 発展: Gemini APIを使って生成AIを使ってみる
+## 発展: Gemini APIで生成AIを使ってみる
 
 `!ask`を送ると、Geminiに質問してくれるようにします。
 
@@ -735,7 +735,7 @@ if (message.content.startsWith("!ask")) {
 
 ---
 
-## 発展: Gemini APIを使って生成AIを使ってみる
+## 発展: Gemini APIで生成AIを使ってみる
 
 `!ask`と送ると、Geminiに質問してくれるようになります。
 
@@ -743,7 +743,7 @@ if (message.content.startsWith("!ask")) {
 
 ---
 
-## 発展: Gemini APIを使って生成AIを使ってみる
+## 発展: Gemini APIで生成AIを使ってみる
 
 Geminiは画像を認識することもできます。添付した画像も認識できるようにしてみましょう。
 
@@ -789,7 +789,7 @@ const result = await model.generateContent(imageData ? [prompt, imageData] : pro
 
 ---
 
-## 発展: Gemini APIを使って生成AIを使ってみる
+## 発展: Gemini APIで生成AIを使ってみる
 
 `!ask`といっしょに画像を添付するとそれも認識してくれるようになりました。
 
