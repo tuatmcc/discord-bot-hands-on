@@ -29,18 +29,37 @@ client.on("messageCreate", async (message) => {
     return;
   }
 
-  // 受信したメッセージが"!janken"なら
-  if (message.content === "!janken") {
+  // 受信したメッセージが"!janken"から始まっていたら
+  if (message.content.startsWith("!janken")) {
     // じゃんけんの手
     const hands = ["グー", "チョキ", "パー"];
+
+    // メッセージを空白で分割してユーザーの手を取得
+    const args = message.content.split(" ");
+    const userHand = args[1];
+    if (!hands.includes(userHand)) {
+      // 引数が指定されていない場合はエラーを表示して終了
+      await message.reply("グー、チョキ、パーのいずれかを指定してください。");
+      return;
+    }
+
     // 0〜2のランダムな整数を生成
     const choiceIndex = Math.floor(Math.random() * hands.length);
     // 選んだ手を取得
     const choice = hands[choiceIndex];
 
-    // 選んだ手を返信して終了
-    await message.reply(`じゃんけんは${choice}！`);
-    return;
+    // 勝敗を判定
+    if (userHand === choice) {
+      await message.reply(`わたし: ${choice}\nあいこ！`);
+    } else if (
+      (userHand === "グー" && choice === "チョキ") ||
+      (userHand === "チョキ" && choice === "パー") ||
+      (userHand === "パー" && choice === "グー")
+    ) {
+      await message.reply(`わたし: ${choice}\nあなたの勝ち！`);
+    } else {
+      await message.reply(`わたし: ${choice}\nあなたの負け！`);
+    }
   }
 });
 
