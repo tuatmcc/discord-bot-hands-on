@@ -99,6 +99,21 @@ client.on("messageCreate", async (message) => {
     // 返信
     await message.reply(reply);
   }
+
+  // 受信したメッセージが"!ask"から始まっていたら
+  if (message.content.startsWith("!ask")) {
+    // 先頭の"!ask"を除いた部分を取得
+    const prompt = message.content.slice(5);
+    // Gemini APIに質問
+    const result = await model.generateContent(prompt);
+    // 生成完了まで待機
+    const response = await result.response;
+    // 生成されたテキストを取得
+    const text = response.text();
+    // 返信して終了
+    await message.reply(text);
+    return;
+  }
 });
 
 // Botを起動
