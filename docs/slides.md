@@ -47,8 +47,8 @@ image: /assets/meru.png
 
 ## 環境構築
 
-今回使用するプログラミング言語はJavaScriptです。
-JavaScriptは元々Webブラウザで動く言語でしたが、Node.jsの登場により今では様々な用途で使われています。
+今回使用するプログラミング言語はJavaScript <logos-javascript /> です。
+JavaScriptは元々Webブラウザで動く言語でしたが、Node.js <logos-nodejs-icon /> の登場により今では様々な用途で使われています。
 
 以下のツールをインストールします。
 
@@ -64,6 +64,8 @@ VSCodeはMicrosoftが開発しているオープンソースのエディタで�
 拡張機能が豊富で、JavaScriptの開発にも最適です。
 
 [公式サイト](https://code.visualstudio.com/)からダウンロードも可能ですが、今どきのOSならCLIからインストールするのが楽です。
+<br>
+(すでにインストール済みの場合はそのままでOKです)
 
 ###### Windows:
 ```bash
@@ -77,11 +79,17 @@ brew install visual-studio-code
 
 Linuxはディストリビューション毎に異なるので各自調べてください。
 
+インストールできたら、以下コマンドで起動できるか確認してください。
+
+```bash
+code
+```
+
 ---
 
 ### Gitのインストール <logos-git-icon />
 
-Gitはバージョン管理システムです。主にソースコードの管理に使用されますが、レポートやドキュメントの管理にも使えます。
+Gitはバージョン管理システムです。主にソースコードの管理・チーム開発に使用されますが、レポートやドキュメントの管理にも使えます。
 今回はGitHubというサイトからソースコードを落とすためだけに使います。
 
 これもCLIからインストールするのが楽です。
@@ -107,6 +115,7 @@ git --version
 ### miseのインストール
 
 miseは開発に使用するツールを簡単にインストールできるCLIツールです。
+<br>
 今回はNode.jsのインストールに使用します。
 
 [公式サイト](https://mise.jdx.dev/getting-started.html)の手順に従ってインストールしてください。
@@ -121,50 +130,35 @@ winget install jdx.mise
 brew install mise
 ```
 
-**なお、インストール後に「Activate mise」の手順も行ってください。**
-<br>
-以下のコマンドで正しくインストールされているか確認できます。
+---
+
+### miseのインストール
+
+**インストール後に「Activate mise」の手順も行います。**
+
+###### Windows:
+```bash
+$shimPath = "$env:USERPROFILE\AppData\Local\mise\shims"
+$currentPath = [Environment]::GetEnvironmentVariable('Path', 'User')
+$newPath = $currentPath + ";" + $shimPath
+[Environment]::SetEnvironmentVariable('Path', $newPath, 'User')
+```
+
+###### Mac:
+```bash
+echo 'eval "$(mise activate zsh --shims)"' >> ~/.zprofile
+echo 'eval "$(mise activate zsh)"' >> ~/.zshrc
+```
+
+VSCodeとの連携の都合上、Macの場合は[shims](https://mise.jdx.dev/dev-tools/shims.html)のパス追加も必要です。
+
+シェルを再起動した後、以下のコマンドで正しくインストールされているか確認できます。
 
 ```bash
 mise doctor
 ```
 
 **これにて環境構築は完了です。お疲れ様でした 🎉**
-
----
-
-## Botアカウントの作成
-
-[Discord Developer Portal](https://discord.com/developers/applications)にアクセスしてBotアカウントを作成します。
-
-1. 「New Application」をクリックして、好きな名前を入力して「Create」をクリックします。
-2. 左側のメニューから「Bot」を選択し、「Reset Token」をクリックしてトークンを生成します。
-3. トークンをコピーしておきます。後で使用します。なお、トークンは一度しか表示されません。コピーしたら大切に保管してください。
-  **トークンは非常に大切な情報です！アカウントのパスワードなどと同様、絶対に他人に教えないでください。**
-4. 「Privileged Gateway Intents」の欄の3つのスイッチを全てONにします。
-
----
-
-## Botアカウントの作成
-
-5. 左側のメニューから「OAuth2」を選択します。
-6. 「OAuth2 URL Generator」の欄で以下のように設定します。
-   - Scopes: `bot`
-   - Bot Permissions: `View Channels`, `Send Messages`, `Read Message History`, `Add Reactions`, `Use Slash Commands`
-
-![](./images/permissions.png){width=50%}
-
----
-
-## Botアカウントの作成
-
-7. 下の「Generated URL」をクリックして、生成されたURLをコピーします。
-8. コピーしたURLをブラウザに貼り付けて、Botをサーバーに追加します。
-  <br>
-  (テスト用に適当なサーバーがあると便利です！)
-9. うまくいけば、サーバーにBotが追加されています 🎉
-
-![](./images/bot_success.png){width=28%}
 
 ---
 
@@ -192,23 +186,77 @@ code discord-bot-hands-on
 
 ## プロジェクトの初期化
 
-VSCodeで開いたら、以下のコマンドを実行してNode.jsのインストールと依存関係のインストールを行います。
+VSCodeで開くと、まずワークスペースを信頼するかたた聞かれるため、「信頼」を選択してください。
+<br>
+また、推奨される拡張機能が右下に表示されるので、インストールしてください。
+<br>
+インストール後、VSCode上でターミナルを開き、以下のコマンドを実行してNode.jsのインストールと依存関係のインストールを行います。
 
 ```bash
 # Node.jsのインストール
-mise install
+mise trust && mise install
 
 # 依存関係のインストール
 npm install
 ```
 
-リポジトリには以下のようなものが含まれています。
+リポジトリには以下のようなものが含まれています。(詳細は`README.md`を参照してください)
 
 - `src/`: ソースコードのディレクトリ。この中のコードを編集してプログラミングしていきます。
 - `package.json`: プロジェクトの設定ファイル。依存関係やスクリプトが定義されています。
-- `package-lock.json`: 依存関係のバージョンを固定するためのファイル。基本的に直接編集することはありません。
-- `node_modules/`: 依存関係のライブラリがインストールされるディレクトリ。基本的に直接編集することはありません。
-- `mise.toml`: miseの設定ファイル。
+- `package-lock.json`: 依存関係のバージョンが書かれるファイル。直接編集することはありません。
+- `node_modules/`: 依存関係がインストールされるディレクトリ。直接編集することはありません。
+- `.vscode/`: VSCodeの設定や拡張機能の設定が含まれています。
+
+---
+
+## Botアカウントの作成
+
+[Discord Developer Portal](https://discord.com/developers/applications)にアクセスしてBotアカウントを作成します。
+
+1. 「New Application」をクリックして、好きな名前を入力して「Create」をクリックします。
+<!-- 2. 左側のメニューから「Bot」を選択し、「Reset Token」をクリックしてトークンを生成します。
+3. トークンをコピーしておきます。後で使用します。なお、トークンは一度しか表示されません。コピーしたら大切に保管してください。
+  **トークンは非常に大切な情報です！アカウントのパスワードなどと同様、絶対に他人に教えないでください。**
+4. 「Privileged Gateway Intents」の欄の3つのスイッチを全てONにします。 -->
+2. 左側のメニューから「Bot」を選択し、「Privileged Gateway Intents」の欄の3つのスイッチを全てONにします。
+
+![](./images/intents.png)
+
+---
+
+## Botアカウントの作成
+
+3. 左側のメニューから「OAuth2」を選択します。
+4. 「OAuth2 URL Generator」の欄で「Scopes」で`bot`を選択します。
+5. 「Bot Permissions」の欄が出現するので、以下の権限にチェックを入れてください。
+   <br>
+   `View Channels`, `Send Messages`, `Read Message History`, `Add Reactions`, `Use Slash Commands`
+   <br>
+   ![](./images/permissions.png){width=50%}
+6. 一番下の「Generated URL」にあるURLをコピーします。
+
+---
+
+## Botアカウントの作成
+
+7. コピーしたURLをブラウザに貼り付けて、Botをサーバーに追加します。
+  <br>
+  (テスト用に適当なサーバーを作っておくと便利です！)
+8. うまくいけば、サーバーにBotが追加されています 🎉
+
+![](./images/bot_success.png){width=30%}
+
+---
+
+## Botアカウントの作成
+
+9.  再度左側のメニューから「Bot」を選択し、「Reset Token」をクリックしてトークンを生成します。
+10. トークンをコピーしておきます。コピーしたトークンは次のステップで使用します。
+    <br>
+    なお、トークンは一度しか表示されないため、注意してください。(再生成は可能です)
+    <br>
+    **トークンは非常に大切な情報です！アカウントのパスワードなどと同様、絶対に他人に教えないでください。**
 
 ---
 
@@ -220,7 +268,7 @@ npm install
 `.env`を作成して、以下のように記述してください。
 
 ```bash
-DISCORD_BOT_TOKEN = "<Botのトークン>"
+DISCORD_BOT_TOKEN = "<先ほどコピーしたBotのトークン>"
 ```
 
 以下のコマンドでプログラムを実行します。
@@ -465,7 +513,7 @@ if (message.content.startsWith("!janken")) {
 
 ![](./images/bot_janken2.png)
 
-`if`文と簡単な計算を組み合わせるだけでも結構色々なことができます。`!dice 3d6`のようにサイコロを振るコマンドとかも作れます。
+`if`文と簡単な計算を組み合わせるだけでも結構色々なことができます。「大吉」・「中吉」・「凶」などのおみくじを引くコマンドや、`!dice 3d6`のようにサイコロを振るコマンドなんかも作れます。
 
 ---
 
@@ -479,10 +527,12 @@ APIは色々なものがありますが、今回は[天気予報API (livedoor天
 
 `https://weather.tsukumijima.net/api/forecast/city/<都市ID>`のURLにGETリクエストを送ると、JSON形式で天気予報が返ってきます。
 
-東京の場合は`130010`、大阪の場合は`270000`、札幌の場合は`016010`です。
+[東京](https://weather.tsukumijima.net/api/forecast/city/130010)の場合は`130010`、[大阪](https://weather.tsukumijima.net/api/forecast/city/270000)の場合は`270000`、[札幌](https://weather.tsukumijima.net/api/forecast/city/016010)の場合は`016010`です。
+
+![](./images/weather_api.png)
 
 他の都市IDも以下のURLから確認できます。(`Ctrl + F` / `Command + F`で検索すると便利です)
-
+<br>
 https://weather.tsukumijima.net/primary_area.xml
 
 ---
@@ -491,12 +541,11 @@ https://weather.tsukumijima.net/primary_area.xml
 
 まずは、天気予報の概要だけを取得して表示するようにしてみましょう。
 
-```js {*}{lines: true}
+```js {*|2-4|5-9|10-11|13-16}{lines: true}
 if (message.content === "!weather") {
   // 天気予報APIにGETリクエストを送る
-  const response = await fetch(
-    "https://weather.tsukumijima.net/api/forecast/city/130010"
-  );
+  const url = "https://weather.tsukumijima.net/api/forecast/city/130010";
+  const response = await fetch(url);
   // エラーの場合はエラーメッセージを表示して終了
   if (!response.ok) {
     await message.reply("天気情報を取得できませんでした。");
