@@ -104,8 +104,24 @@ client.on("messageCreate", async (message) => {
   if (message.content.startsWith("!ask")) {
     // 先頭の"!ask"を除いた部分を取得
     const prompt = message.content.slice(5);
-    // Gemini APIに質問
-    const result = await model.generateContent(prompt);
+    let imageData = null;
+    // 画像が添付されている場合は画像を取得
+    const imageUrl = message.attachments.first()?.url;
+    if (imageUrl) {
+      // 画像を取得
+      const res = await fetch(imageUrl);
+      if (!res.ok) {
+        await message.reply("画像の取得に失敗しました。");
+        return;
+      }
+      // 画像をBase64に変換
+      const blob = await res.blob();
+      const imageBase64 = Buffer.from(await blob.arrayBuffer()).toString("base64");
+      // APIに渡す形式にデータを整形
+      imageData = { inlineData: { data: imageBase64, mimeType: blob.type } };
+    }
+    // 画像が添付されている場合は画像も渡す
+    const result = await model.generateContent(imageData ? [prompt, imageData] : prompt);
     // 生成完了まで待機
     const response = await result.response;
     // 生成されたテキストを取得
