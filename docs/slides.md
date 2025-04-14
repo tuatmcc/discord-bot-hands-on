@@ -645,6 +645,159 @@ APIを使うことで、様々なデータを取得して自分のプログラ�
 
 ---
 
+## 発展: Gemini APIを使って生成AIを使ってみる
+
+生成AIであるGeminiのAPIを使って生成AIに質問できるコマンドを作ってみましょう。
+まず、Gemini APIのAPIキーを取得します。
+[Google AI Studio](https://aistudio.google.com/apikey?hl=ja)にアクセスしてAPIキーを取得してください。
+取得したAPIキーを`.env`に追加します。
+
+```bash
+DISCORD_BOT_TOKEN = ...
+GEMINI_API_KEY = "<取得したAPIキー>"
+```
+
+次にGemini APIを簡単に扱えるライブラリをインストールします。
+<br>
+以下のコマンドで`@google/generative-ai`をインストールしてください。
+
+```bash
+npm i @google/generative-ai
+```
+
+インストールが完了すると、`package.json`に`"@google/generative-ai": "^0.24.0"`のような行が追加されているはずです。
+
+---
+
+## 発展: Gemini APIを使って生成AIを使ってみる
+
+次に、Gemini APIを使うためのコードを追加します。
+
+````md magic-move {lines: true}
+```js {*}
+// ライブラリのインポート
+import { Client } from "discord.js";
+
+// クライアントを作成
+const client = new Client({
+  // Botの動作に必要な権限を指定
+  intents: ["Guilds", "GuildMembers", "GuildMessages", "MessageContent"],
+});
+
+// ...
+```
+
+```js {1-2,6-9}
+// Gemini APIのライブラリをインポート
+import { GoogleGenerativeAI } from "@google/generative-ai";
+// ライブラリのインポート
+import { Client } from "discord.js";
+
+// APIキーを使ってAPIクライアントを作成
+const genAI = new GoogleGenerativeAI(process.env["GEMINI_API_KEY"]);
+// 使用するモデルを指定
+const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+
+// クライアントを作成
+const client = new Client({
+  // Botの動作に必要な権限を指定
+  intents: ["Guilds", "GuildMembers", "GuildMessages", "MessageContent"],
+});
+
+// ...
+```
+````
+
+---
+
+## 発展: Gemini APIを使って生成AIを使ってみる
+
+`!ask`を送ると、Geminiに質問してくれるようにします。
+
+```js {*}{lines: true}
+// ...
+
+// 受信したメッセージが"!ask"から始まっていたら
+if (message.content.startsWith("!ask")) {
+  // 先頭の"!ask"を除いた部分を取得
+  const prompt = message.content.slice(5);
+  // Gemini APIに質問
+  const result = await model.generateContent(prompt);
+  // 生成完了まで待機
+  const response = await result.response;
+  // 生成されたテキストを取得
+  const text = response.text();
+  // 返信して終了
+  await message.reply(text);
+  return;
+}
+```
+
+---
+
+## 発展: Gemini APIを使って生成AIを使ってみる
+
+`!ask`と送ると、Geminiに質問してくれるようになります。
+
+![](./images/bot_gemini.png)
+
+---
+
+## 発展: Gemini APIを使って生成AIを使ってみる
+
+Geminiは画像を認識することもできます。添付した画像も認識できるようにしてみましょう。
+
+````md magic-move {lines: true}
+```js {*}
+// 先頭の"!ask"を除いた部分を取得
+const prompt = message.content.slice(5);
+// Gemini APIに質問
+const result = await model.generateContent(prompt);
+// 生成完了まで待機
+const response = await result.response;
+// 生成されたテキストを取得
+const text = response.text();
+// 返信して終了
+await message.reply(text);
+return;
+```
+
+```js {3-20}
+// 先頭の"!ask"を除いた部分を取得
+const prompt = message.content.slice(5);
+let imageData = null;
+// 画像が添付されている場合は画像を取得
+const imageUrl = message.attachments.first()?.url;
+if (imageUrl) {
+  // 画像を取得
+  const res = await fetch(imageUrl);
+  if (!res.ok) {
+    await message.reply("画像の取得に失敗しました。");
+    return;
+  }
+  // 画像をBase64に変換
+  const blob = await res.blob();
+  const imageBase64 = Buffer.from(await blob.arrayBuffer()).toString("base64");
+  // APIに渡す形式にデータを整形
+  imageData = { inlineData: { data: imageBase64, mimeType: blob.type } };
+}
+// 画像が添付されている場合は画像も渡す
+const result = await model.generateContent(imageData ? [prompt, imageData] : prompt);
+// ...
+```
+````
+
+---
+
+## 発展: Gemini APIを使って生成AIを使ってみる
+
+`!ask`といっしょに画像を添付するとそれも認識してくれるようになりました。
+
+![](./images/bot_gemini2.png)
+
+
+---
+
 ## おまけ: 今までに作った・遭遇したBot達
 
 <br>
