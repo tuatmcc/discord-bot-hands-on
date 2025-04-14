@@ -6,9 +6,14 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "start": "node --env-file=.env src/app.js"
+    "start": "node --env-file=.env src/app.js",
+    "format": "biome format --write",
+    "lint": "biome lint"
   },
   "dependencies": {
     "discord.js": "^14.18.0"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.4"
   }
 }
