@@ -75,10 +75,22 @@ client.on("messageCreate", async (message) => {
     // レスポンスをJSON形式に変換
     const data = await response.json();
 
-    // 天気予報の概要を取得して表示
-    const title = data.title;
-    const overview = data.description.text;
-    await message.reply(`# ${title}\n${overview}`);
+    // 返信するメッセージを変数で持つ
+    let reply = "";
+    // タイトルを追加
+    reply += `# ${data.title}\n`;
+    // forecastsの中を順番に処理
+    for (const forecast of data.forecasts) {
+      // 日付の文字列をDateオブジェクトに変換
+      const date = new Date(forecast.date);
+      // 〇月〇日の形式に変換して追加
+      reply += `## ${date.getMonth() + 1}月${date.getDate()}日\n`;
+      // 天気を追加
+      reply += `天気: ${forecast.telop}\n`;
+    }
+
+    // 返信
+    await message.reply(reply);
   }
 });
 
