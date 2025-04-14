@@ -298,7 +298,7 @@ npm run start
 
 ## ソースコードを読んでみる
 
-`src/app.js`を開いてソースコードを見てみましょう。
+`src/app.js`を開いてソースコードを見てみましょう[(ソースコード)](https://github.com/tuatmcc/discord-bot-hands-on/blob/732f8014b8de787d81ca5683796aa150e7fc19e8/src/app.js)。
 
 ````md magic-move {lines: true}
 ```js {*}
@@ -363,7 +363,7 @@ client.login(process.env["DISCORD_BOT_TOKEN"]);
 ## ping/pongを作ってみる
 
 このままだと全てのメッセージに対して反応するので結構うるさいです。
-そこで、`ping`と送ると`pong`と返すようにしてみましょう。
+そこで、`ping`と送ると`pong`と返すようにしてみましょう[(ソースコード)](https://github.com/tuatmcc/discord-bot-hands-on/blob/acf257c66b9e99fc43f1a5337d1d594422ce35dd/src/app.js#L24-L30)。
 
 ````md magic-move {lines: true}
 ```js {*|9-10}
@@ -429,7 +429,8 @@ if (message.content === "!hello") {
 ## じゃんけんコマンドを作ってみる
 
 次はじゃんけんを作ってみましょう。
-`!janken`と送ると、ランダムにじゃんけんの手を返すようにします。
+`!janken`と送ると、ランダムにじゃんけんの手を返すようにします
+[(ソースコード)](https://github.com/tuatmcc/discord-bot-hands-on/blob/a17849c1cbc3b8d696538e1082230d081cf4787b/src/app.js#L32-L44)。
 
 ```js {*|1-2|3-4|5-6|7-8|10-12}{lines: true}
 // 受信したメッセージが"!janken"なら
@@ -447,13 +448,13 @@ if (message.content === "!janken") {
 }
 ```
 
-![](./images/bot_janken.png)
+![](./images/bot_janken.png){width=80%}
 
 ---
 
 ## じゃんけんコマンドを作ってみる
 
-このままだと勝敗がわからないので、勝敗を判定して返すようにしてみましょう。
+このままだと勝敗がわからないので、勝敗を判定して返すようにしてみましょう[(ソースコード)](https://github.com/tuatmcc/discord-bot-hands-on/blob/ee4ed1a36ecffa1c5e291cef1bcd200bfde2005c/src/app.js#L32-L63)。
 
 ````md magic-move {lines: true, maxHeight: '100px'}
 ```js
@@ -472,7 +473,7 @@ if (message.content === "!janken") {
 }
 ```
 
-```js {*|1-2|6-8|9-13}
+```js {1-2,6-8,9-13|1-2|6-8|9-13}
 // 受信したメッセージが"!janken"から始まっていたら
 if (message.content.startsWith("!janken")) {
   // じゃんけんの手
@@ -495,8 +496,13 @@ if (message.content.startsWith("!janken")) {
   // ...
 ```
 
-```js {*|3-5|3,6-11|3,12-14}
+```js {9-19|8-10|8,11-16|8,17-19}
   // ...
+
+  // 0〜2のランダムな整数を生成
+  const choiceIndex = Math.floor(Math.random() * hands.length);
+  // 選んだ手を取得
+  const choice = hands[choiceIndex];
 
   // 勝敗を判定
   if (userHand === choice) {
@@ -549,7 +555,7 @@ https://weather.tsukumijima.net/primary_area.xml
 
 ## 天気予報を教えてくれるコマンドを作ってみる
 
-まずは、天気予報の概要だけを取得して表示するようにしてみましょう。
+まずは、天気予報の概要だけを取得して表示するようにしてみましょう[(ソースコード)](https://github.com/tuatmcc/discord-bot-hands-on/blob/d28d77aa62d423718803e80ba6e4a4a0e2d12987/src/app.js#L65-L82)。
 
 ```js {*|2-4|5-9|10-11|13-16}{lines: true}
 if (message.content === "!weather") {
@@ -583,7 +589,7 @@ if (message.content === "!weather") {
 
 ## 天気予報を教えてくれるコマンドを作ってみる
 
-天気の概要だけでは面白くないので、`"forecasts"`の中から天気の情報を取得して表示するようにしてみましょう。
+天気の概要だけでは面白くないので、`"forecasts"`の中から天気の情報を取得して表示するようにしてみましょう[(ソースコード)](https://github.com/tuatmcc/discord-bot-hands-on/blob/30b078139a533584161f32530fac1f7485911f72/src/app.js#L65-L94)。
 
 ````md magic-move {lines: true}
 ```js {*}
@@ -671,7 +677,7 @@ npm i @google/generative-ai
 
 ## 発展: Gemini APIで生成AIを使ってみる
 
-次に、Gemini APIを使うためのコードを追加します。
+次に、Gemini APIを使うためのコードを追加します[(ソースコード)](https://github.com/tuatmcc/discord-bot-hands-on/blob/1c8fae198fd9f021b6aa318786c36e5d03e78397/src/app.js#L1-L15)。
 
 ````md magic-move {lines: true}
 ```js {*}
@@ -712,7 +718,7 @@ const client = new Client({
 
 ## 発展: Gemini APIで生成AIを使ってみる
 
-`!ask`を送ると、Geminiに質問してくれるようにします。
+`!ask`を送ると、Geminiに質問してくれるようにします[(ソースコード)](https://github.com/tuatmcc/discord-bot-hands-on/blob/76999a871381b097bc436530088f6b14f88d4d68/src/app.js#L103-L116)。
 
 ```js {*}{lines: true}
 // ...
@@ -745,7 +751,7 @@ if (message.content.startsWith("!ask")) {
 
 ## 発展: Gemini APIで生成AIを使ってみる
 
-Geminiは画像を認識することもできます。添付した画像も認識できるようにしてみましょう。
+Geminiは画像を認識することもできます。添付した画像も認識できるようにしてみましょう[(ソースコード)](https://github.com/tuatmcc/discord-bot-hands-on/blob/8d9dda16b03010715373b672b46a5435254c6ff8/src/app.js#L103-L132)。
 
 ````md magic-move {lines: true}
 ```js {*}
