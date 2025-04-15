@@ -233,6 +233,13 @@ npm install
    ![](./images/intents.png){width=90%}
 3. 「Save Changes」をクリックして設定を保存します。
 
+<!--
+[メモ]: Privileged Gateway Intentsの説明
+Intentsの設定はBotが受信するイベントの種類を設定するものです。
+ただ、一部のイベントはプライバシーの観点でデフォルトでOFFになっており、更に100サーバー以上に参加しているBotの場合はONにするために申請が必要です。
+今回は開発を楽にするため、プライバシーなどは考慮せず全てONにしています。
+-->
+
 ---
 
 ## Botアカウントの作成 <logos-discord-icon />
@@ -245,6 +252,13 @@ npm install
    <br>
    ![](./images/permissions.png){width=50%}
 7. 一番下の「Generated URL」にあるURLをコピーします。
+
+<!--
+[メモ]: Permissionの説明
+PermissionはBotがサーバーで実行できる操作の種類を設定するものです。
+今回はBotがメッセージを送信したり、リアクションを追加したりするための権限を設定しています。
+(今回の講習では使わない権限もありますが、一般的なBotに必要な権限を設定しています)
+-->
 
 ---
 
@@ -294,6 +308,14 @@ npm run start
 
 なお、終了したい場合は`Ctrl + C`/`Command + C`で終了できます。
 
+<!--
+[メモ]: .envの存在理由を説明する。
+先ほども書いた通り、トークンは非常に大切な情報です。
+ソースコードはGitHubなどで公開することがあるため、.envといったファイルに分けて管理することが一般的です。
+
+[メモ]: オウム返しをちゃんとしてくれるか、きちんと確認する。
+-->
+
 ---
 
 ## ソースコードを読んでみる <twemoji-open-book />
@@ -323,7 +345,7 @@ client.on("messageCreate", async (message) => {
 client.login(process.env["DISCORD_BOT_TOKEN"]);
 ```
 
-```js {1-8|1-2|4-8}
+```js {*|1-2|4-8}
 // ライブラリのインポート
 import { Client } from "discord.js";
 
@@ -357,6 +379,22 @@ client.on("messageCreate", async (message) => {
 client.login(process.env["DISCORD_BOT_TOKEN"]);
 ```
 ````
+
+<!--
+ソースコードを上から順に説明する。
+
+[click]: 最初の方の説明
+[click]: discord.jsはDiscordのBotを作成するためのライブラリです。`import`でインポートしています。
+[click]: ClientはBotの各種操作やイベントを受け取るためのクラス(クラスの説明はなくてもOK)。IntentsはBotが受信するイベントの種類を指定するもの。今回は詳細な説明はなくてOK。
+
+[click]: 後半の方の説明
+[click]: `.on`はなにかしらのイベントが発生したときに実行される関数を登録するもの。`ready`はBotの準備ができたときに発生するイベント。
+[click]: `console.log`はコンソールにメッセージを表示する関数。この場合はBotの名前を表示している。バッククォートで変数の値を埋め込むことができる。
+[click]: `messageCreate`はメッセージが作成されたときに発生するイベント。`message`は受信したメッセージの情報を持つオブジェクト。
+[click]: `message.author.bot`はメッセージの送信者がBotかどうかを判定するプロパティ。Botが送信したメッセージは無視するために使用している。`return`は関数の処理を終了するためのもの。
+[click]: `message.content`でメッセージの内容を取得できる。取得したメッセージをコンソールに表示している。
+[click]: `message.reply`はメッセージに返信するための関数。引数に返信するメッセージを指定している。`await`はちょっと難しいので今回は省略。なんとなく時間がかかる処理を待つためのものだと思ってください。
+-->
 
 ---
 
@@ -399,6 +437,13 @@ client.on("messageCreate", async (message) => {
 });
 ```
 ````
+
+<!--
+[メモ]: 淡々と説明だとちょっと退屈なので、どこを変更すればいいのかを考えさせる。
+
+[click]: 毎回そのまま返信してるのが悪いので、`ping`のときだけ`message.reply`するようにしたい。
+[click]: `if`文を使うことで条件分岐ができる。`===`はイコール3つ。これで`message.content`が`!ping`と等しいかどうかを判定している。`if`に書いた条件式が成立してるときは`{}`の中が実行される。
+-->
 
 ---
 
@@ -450,11 +495,19 @@ if (message.content === "!janken") {
 
 ![](./images/bot_janken.png){width=80%}
 
+<!--
+[click]: まず`if`文を使って`!janken`のときだけ処理を実行するようにします。
+[click]: `hands`は配列と呼ばれるもの。複数の値をまとめて管理できる。
+[click]: ここがちょっと難しい。`Math.random()`は0以上1未満のランダムな小数を生成する関数。`Math.floor()`は小数点以下を切り捨てる関数。これらを組み合わせることで、0〜2のランダムな整数を生成しています。
+[click]: `hands[choiceIndex]`でランダムに選んだ手を取得しています。配列のインデックスは0から始まるので、0〜2の整数を指定することで、`hands`の中からランダムに1つの要素を取得しています。
+[click]: `message.reply`で選んだ手を返信しています。
+-->
+
 ---
 
 ## じゃんけんコマンドを作ってみる <twemoji-victory-hand />
 
-このままだと勝敗がわからないので、勝敗を判定して返すようにしてみましょう[(ソースコード)](https://github.com/tuatmcc/discord-bot-hands-on/blob/ee4ed1a36ecffa1c5e291cef1bcd200bfde2005c/src/app.js#L32-L63)。
+このままだと勝敗がわからないので、`!janken パー`のように自分の手を指定して、勝敗を判定して返すようにしてみましょう[(ソースコード)](https://github.com/tuatmcc/discord-bot-hands-on/blob/ee4ed1a36ecffa1c5e291cef1bcd200bfde2005c/src/app.js#L32-L63)。
 
 ````md magic-move {lines: true, maxHeight: '100px'}
 ```js
@@ -467,9 +520,7 @@ if (message.content === "!janken") {
   // 選んだ手を取得
   const choice = hands[choiceIndex];
 
-  // 選んだ手を返信して終了
-  await message.reply(`じゃんけんは${choice}！`);
-  return;
+  // ...
 }
 ```
 
@@ -520,6 +571,18 @@ if (message.content.startsWith("!janken")) {
 ```
 ````
 
+<!--
+[click]: 前半のコードを表示。
+[click]: `startsWith`は文字列が指定した文字列で始まるかどうかを判定する関数。これを使うことで、`!janken`の後に文字列が来ても反応するようになります。
+[click]: `split`は文字列を指定した文字で分割して配列にする関数。これを使うことで、メッセージを空白で分割して、ユーザーの手を取得しています。
+[click]: `if`文を使って、ユーザーの手が正しいかどうかを判定しています。`includes`は配列に指定した要素が含まれているかどうかを判定する関数。これを使うことで、ユーザーの手が`hands`に含まれているかどうかを判定しています。含まれていない場合はエラーメッセージを表示して終了します。
+
+[click]: 後半のコードを表示。
+[click]: まずはあいこの判定。これは単純に`===`で比較。
+[click]: `else if`は`if`の条件が成立しなかった場合に実行される条件分岐。勝ちの条件を判定しています。`&&`や`||`を使うことで複数の条件を組み合わせることができる。条件に当てはまったら勝ちのメッセージを表示しています。
+[click]: `else`は全ての`if`や`else if`の条件が成立しなかった場合に実行される条件分岐。あいこでも勝ちでもない場合は負けなので、負けのメッセージを表示しています。
+-->
+
 ---
 
 ## じゃんけんコマンドを作ってみる <twemoji-victory-hand />
@@ -551,6 +614,12 @@ APIは色々なものがありますが、今回は[天気予報API (livedoor天
 <br>
 https://weather.tsukumijima.net/primary_area.xml
 
+<!--
+[メモ]: APIの説明は簡単にするといいかも。
+[メモ]: JSONはデータ形式の一つ。JavaScriptから扱いやすい形式で、人間も読みやすい。
+[メモ]: 実際にアクセスさせて、中身を確認させる。
+-->
+
 ---
 
 ## 天気予報を教えてくれるコマンドを作ってみる <twemoji-sun-behind-rain-cloud />
@@ -576,6 +645,15 @@ if (message.content === "!weather") {
   await message.reply(`# ${title}\n${overview}`);
 }
 ```
+
+<!--
+[click]: `fetch`はAPIにリクエストを送るための関数。引数にURLを指定することで、指定したURLにGETリクエストを送ります。
+[click]: `response.ok`はリクエストが成功したかどうかを判定するプロパティ。失敗した場合はエラーメッセージを表示して終了します。
+[click]: `response.json()`はレスポンスをJSON形式に変換する関数。これを使うことで、APIから返ってきたデータをJavaScriptのオブジェクトとして扱えるようになります。
+
+[click]: 取ってこれたデータはただのJSのオブジェクトなので、APIの中身を簡単に取得できる。`\n`は改行を表す文字列。
+[メモ]: ブラウザでアクセスしたときのJSONと見比べて、どのプロパティを参照しようとしてるのかを確認させる。
+-->
 
 ---
 
@@ -622,6 +700,16 @@ for (const forecast of data.forecasts) {
 await message.reply(reply);
 ```
 ````
+
+<!--
+[click]: `let`を使うと、変数の再代入ができるようになる。`+=`みたいなのを使う場合は`const`ではなく`let`。ただし、基本的には`const`を使い、`const`だとできない場合に`let`を使うのが良い。
+[click]: `title`はさっきと同じ。`description`を消しているが、あってもOK。
+[click]:
+  `for`文は配列の中を順番に処理するための文。`for (const forecast of data.forecasts)`で`data.forecasts`の中を順番に処理している。`forecast`は現在処理している要素を表す変数。
+  `Date`はJSで日付を扱うためのクラス。`new Date(forecast.date)`で文字列を日付に変換している。
+  `getMonth()`は月を取得するメソッド。`getDate()`は日を取得するメソッド。`+ 1`しているのは、JSの月は0から始まるため。`+ 1`しないと1月が0月になってしまう。(JSカスポイント)
+[click]: `reply`が組み立てられたら、`message.reply`で返信している。
+-->
 
 ---
 
