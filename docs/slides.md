@@ -26,23 +26,23 @@ class: text-center
 
 2025/04/16
 
-しゅん🌙 (@shun_shobon)
+しゅん<twemoji-crescent-moon /> (@shun_shobon)
 
 ---
 layout: image-right
 image: /assets/meru.png
 ---
 
-## 自己紹介
+## 自己紹介 <twemoji-pencil />
 
-- 名前: しゅん🌙 (@shun_shobon)
+- 名前: しゅん<twemoji-crescent-moon /> (@shun_shobon)
 - 所属: 知能情報システム(AS) B4
 - 分野: Web技術, ネットワーク, デザイン
 - 趣味: マイクラ, 音ゲー, etc...
 
 ---
 
-## 今日の目標
+## 今日の目標 <twemoji-chequered-flag />
 
 1. JavaScriptが一通り使えるようになる！
 2. Discord Botを作れるようになる！
@@ -59,16 +59,16 @@ image: /assets/meru.png
 
 ---
 
-## 環境構築
+## 環境構築 <twemoji-building-construction />
 
 今回使用するプログラミング言語はJavaScript <logos-javascript /> です。
-JavaScriptは元々Webブラウザで動く言語でしたが、Node.js <logos-nodejs-icon /> の登場により今では様々な用途で使われています。
+JavaScriptは元々Webブラウザで動く言語でしたが、Node.jsの登場により今では様々な用途で使われています。
 
 以下のツールをインストールします。
 
-- VSCode <logos-visual-studio-code /> のインストール
-- Git <logos-git-icon /> のインストール
-- miseのインストール(Node.js <logos-nodejs-icon /> のインストール)
+- VSCodeのインストール
+- Gitのインストール
+- miseのインストール(Node.jsのインストール)
 
 ---
 
@@ -126,7 +126,7 @@ git --version
 
 ---
 
-### miseのインストール
+### miseのインストール <logos-terminal />
 
 miseは開発に使用するツールを簡単にインストールできるCLIツールです。
 <br>
@@ -146,7 +146,7 @@ brew install mise
 
 ---
 
-### miseのインストール
+### miseのインストール <logos-terminal />
 
 **インストール後に「Activate mise」の手順も行います。**
 
@@ -165,17 +165,17 @@ echo 'eval "$(mise activate zsh --shims)"' >> ~/.zprofile
 echo 'eval "$(mise activate zsh)"' >> ~/.zshrc
 ```
 
-シェルを再起動した後、以下のコマンドで正しくインストールされているか確認できます。
+ターミナルを再起動した後、以下のコマンドで正しくインストールされているか確認できます。
 
 ```bash
 mise doctor
 ```
 
-**これにて環境構築は完了です。お疲れ様でした 🎉**
+**これにて環境構築は完了です。お疲れ様でした <twemoji-party-popper />**
 
 ---
 
-## ソースコードの準備
+## ソースコードの準備 <carbon-code class="text-blue-500" />
 
 今回使用するソースコードはGitHubで公開しています。
 
@@ -198,7 +198,7 @@ code discord-bot-hands-on
 
 ---
 
-## プロジェクトの初期化
+## プロジェクトの初期化 <twemoji-hammer-and-wrench />
 
 VSCodeで開くと、まずワークスペースを信頼するかたた聞かれるため、「信頼」を選択してください。
 <br>
@@ -224,7 +224,7 @@ npm install
 
 ---
 
-## Botアカウントの作成
+## Botアカウントの作成 <logos-discord-icon />
 
 [Discord Developer Portal](https://discord.com/developers/applications)にアクセスしてBotアカウントを作成します。
 
@@ -235,34 +235,34 @@ npm install
 
 ---
 
-## Botアカウントの作成
+## Botアカウントの作成 <logos-discord-icon />
 
-3. 左側のメニューから「OAuth2」を選択します。
-4. 「OAuth2 URL Generator」の欄で「Scopes」で`bot`を選択します。
-5. 「Bot Permissions」の欄が出現するので、以下の権限にチェックを入れてください。
+4. 左側のメニューから「OAuth2」を選択します。
+5. 「OAuth2 URL Generator」の欄で「Scopes」で`bot`を選択します。
+6. 「Bot Permissions」の欄が出現するので、以下の権限にチェックを入れてください。
    <br>
    `View Channels`, `Send Messages`, `Read Message History`, `Add Reactions`, `Use Slash Commands`
    <br>
    ![](./images/permissions.png){width=50%}
-6. 一番下の「Generated URL」にあるURLをコピーします。
+7. 一番下の「Generated URL」にあるURLをコピーします。
 
 ---
 
-## Botアカウントの作成
+## Botアカウントの作成 <logos-discord-icon />
 
-7. コピーしたURLをブラウザに貼り付けて、Botをサーバーに追加します。
+8. コピーしたURLをブラウザに貼り付けて、Botをサーバーに追加します。
   <br>
   (テスト用に適当なサーバーを作っておくと便利です！)
-8. うまくいけば、サーバーにBotが追加されています 🎉
+9. うまくいけば、サーバーにBotが追加されています 🎉
 
 ![](./images/bot_success.png){width=30%}
 
 ---
 
-## Botアカウントの作成
+## Botアカウントの作成 <logos-discord-icon />
 
-9.  再度左側のメニューから「Bot」を選択し、「Reset Token」をクリックしてトークンを生成します。
-10. トークンをコピーしておきます。コピーしたトークンは次のステップで使用します。
+10.  再度左側のメニューから「Bot」を選択し、「Reset Token」をクリックしてトークンを生成します。
+11. トークンをコピーしておきます。コピーしたトークンは次のステップで使用します。
     <br>
     なお、トークンは一度しか表示されないため、注意してください。(再生成は可能です)
     <br>
@@ -270,7 +270,7 @@ npm install
 
 ---
 
-## プログラムを動かしてみる
+## プログラムを動かしてみる <twemoji-fast-forward-button />
 
 まずは、プログラムを動かしてみます。
 プログラムの動作にはBotのトークンが必要です。
@@ -296,7 +296,7 @@ npm run start
 
 ---
 
-## ソースコードを読んでみる
+## ソースコードを読んでみる <twemoji-open-book />
 
 `src/app.js`を開いてソースコードを見てみましょう[(ソースコード)](https://github.com/tuatmcc/discord-bot-hands-on/blob/732f8014b8de787d81ca5683796aa150e7fc19e8/src/app.js)。
 
@@ -360,7 +360,7 @@ client.login(process.env["DISCORD_BOT_TOKEN"]);
 
 ---
 
-## ping/pongを作ってみる
+## ping/pongを作ってみる <twemoji-ping-pong />
 
 このままだと全てのメッセージに対して反応するので結構うるさいです。
 そこで、`ping`と送ると`pong`と返すようにしてみましょう[(ソースコード)](https://github.com/tuatmcc/discord-bot-hands-on/blob/acf257c66b9e99fc43f1a5337d1d594422ce35dd/src/app.js#L24-L30)。
@@ -402,7 +402,7 @@ client.on("messageCreate", async (message) => {
 
 ---
 
-## ping/pongを作ってみる
+## ping/pongを作ってみる <twemoji-ping-pong />
 
 再度プログラムを実行すると、`!ping`と送ると`pong!`と返してくれるようになります。
 また、それ以外のメッセージには反応しません。
@@ -426,7 +426,7 @@ if (message.content === "!hello") {
 
 ---
 
-## じゃんけんコマンドを作ってみる
+## じゃんけんコマンドを作ってみる <twemoji-victory-hand />
 
 次はじゃんけんを作ってみましょう。
 `!janken`と送ると、ランダムにじゃんけんの手を返すようにします
@@ -452,7 +452,7 @@ if (message.content === "!janken") {
 
 ---
 
-## じゃんけんコマンドを作ってみる
+## じゃんけんコマンドを作ってみる <twemoji-victory-hand />
 
 このままだと勝敗がわからないので、勝敗を判定して返すようにしてみましょう[(ソースコード)](https://github.com/tuatmcc/discord-bot-hands-on/blob/ee4ed1a36ecffa1c5e291cef1bcd200bfde2005c/src/app.js#L32-L63)。
 
@@ -496,7 +496,7 @@ if (message.content.startsWith("!janken")) {
   // ...
 ```
 
-```js {9-19|8-10|8,11-16|8,17-19}
+```js {8-19|8-10|8,11-16|8,17-19}
   // ...
 
   // 0〜2のランダムな整数を生成
@@ -522,18 +522,18 @@ if (message.content.startsWith("!janken")) {
 
 ---
 
-## じゃんけんコマンドを作ってみる
+## じゃんけんコマンドを作ってみる <twemoji-victory-hand />
 
 ユーザーの手に応じて勝敗を判定するようにしました。
 `!janken <手>`と送ると、Botがランダムにじゃんけんの手を選び、勝敗を判定して返してくれます。
 
 ![](./images/bot_janken2.png)
 
-`if`文と簡単な計算を組み合わせるだけでも結構色々なことができます。「大吉」・「中吉」・「凶」などのおみくじを引くコマンドや、`!dice 3d6`のようにサイコロを振るコマンドなんかも作れます。
+`if`文と簡単な計算を組み合わせるだけでも結構色々なことができます。「大吉」・「中吉」・「凶」などのおみくじを引くコマンド <twemoji-shinto-shrine /> や、`!dice 3d6`のようにサイコロを振るコマンド <twemoji-game-die /> なんかも作れます。
 
 ---
 
-## 天気予報を教えてくれるコマンドを作ってみる
+## 天気予報を教えてくれるコマンドを作ってみる <twemoji-sun-behind-rain-cloud />
 
 `!weather`と送ると、天気予報を教えてくれるコマンドを作ってみましょう。
 APIを使って天気予報を取得します。
@@ -553,7 +553,7 @@ https://weather.tsukumijima.net/primary_area.xml
 
 ---
 
-## 天気予報を教えてくれるコマンドを作ってみる
+## 天気予報を教えてくれるコマンドを作ってみる <twemoji-sun-behind-rain-cloud />
 
 まずは、天気予報の概要だけを取得して表示するようにしてみましょう[(ソースコード)](https://github.com/tuatmcc/discord-bot-hands-on/blob/d28d77aa62d423718803e80ba6e4a4a0e2d12987/src/app.js#L65-L82)。
 
@@ -579,7 +579,7 @@ if (message.content === "!weather") {
 
 ---
 
-## 天気予報を教えてくれるコマンドを作ってみる
+## 天気予報を教えてくれるコマンドを作ってみる <twemoji-sun-behind-rain-cloud />
 
 `!weather`と送ると、天気予報の概要が表示されるようになります。
 
@@ -587,7 +587,7 @@ if (message.content === "!weather") {
 
 ---
 
-## 天気予報を教えてくれるコマンドを作ってみる
+## 天気予報を教えてくれるコマンドを作ってみる <twemoji-sun-behind-rain-cloud />
 
 天気の概要だけでは面白くないので、`"forecasts"`の中から天気の情報を取得して表示するようにしてみましょう[(ソースコード)](https://github.com/tuatmcc/discord-bot-hands-on/blob/30b078139a533584161f32530fac1f7485911f72/src/app.js#L65-L94)。
 
@@ -625,7 +625,7 @@ await message.reply(reply);
 
 ---
 
-## 天気予報を教えてくれるコマンドを作ってみる
+## 天気予報を教えてくれるコマンドを作ってみる <twemoji-sun-behind-rain-cloud />
 
 `!weather`と送ると、それぞれの日の天気が表示されるようになります。
 
@@ -633,11 +633,11 @@ await message.reply(reply);
 
 `"forecasts"`の中には、天気以外にも最高・最低気温や降水確率などの情報も含まれています。
 それらの情報を表示してもいいですし、`!weather <都市ID>`のように指定した都市の天気を表示するようにしても面白いと思います。
-天気に応じた絵文字を表示するのもいいですね ☀️☁️🌧️
+天気に応じた絵文字を表示するのもいいですね <twemoji-sun />
 
 ---
 
-## まとめ
+## まとめ <twemoji-fountain-pen />
 
 本講座では、Discord Botを作成しながらJavaScriptの基本的な文法を学びました。
 
@@ -651,7 +651,7 @@ APIを使うことで、様々なデータを取得して自分のプログラ�
 
 ---
 
-## 発展: Gemini APIで生成AIを使ってみる
+## 発展: Gemini APIで生成AIを使ってみる <twemoji-speech-balloon />
 
 生成AIであるGeminiのAPIを使って生成AIに質問できるコマンドを作ってみましょう。
 まず、Gemini APIのAPIキーを取得します。
@@ -675,7 +675,7 @@ npm i @google/generative-ai
 
 ---
 
-## 発展: Gemini APIで生成AIを使ってみる
+## 発展: Gemini APIで生成AIを使ってみる <twemoji-speech-balloon />
 
 次に、Gemini APIを使うためのコードを追加します[(ソースコード)](https://github.com/tuatmcc/discord-bot-hands-on/blob/1c8fae198fd9f021b6aa318786c36e5d03e78397/src/app.js#L1-L15)。
 
@@ -716,7 +716,7 @@ const client = new Client({
 
 ---
 
-## 発展: Gemini APIで生成AIを使ってみる
+## 発展: Gemini APIで生成AIを使ってみる <twemoji-speech-balloon />
 
 `!ask`を送ると、Geminiに質問してくれるようにします[(ソースコード)](https://github.com/tuatmcc/discord-bot-hands-on/blob/76999a871381b097bc436530088f6b14f88d4d68/src/app.js#L103-L116)。
 
@@ -741,7 +741,7 @@ if (message.content.startsWith("!ask")) {
 
 ---
 
-## 発展: Gemini APIで生成AIを使ってみる
+## 発展: Gemini APIで生成AIを使ってみる <twemoji-speech-balloon />
 
 `!ask`と送ると、Geminiに質問してくれるようになります。
 
@@ -749,7 +749,7 @@ if (message.content.startsWith("!ask")) {
 
 ---
 
-## 発展: Gemini APIで生成AIを使ってみる
+## 発展: Gemini APIで生成AIを使ってみる <twemoji-speech-balloon />
 
 Geminiは画像を認識することもできます。添付した画像も認識できるようにしてみましょう[(ソースコード)](https://github.com/tuatmcc/discord-bot-hands-on/blob/8d9dda16b03010715373b672b46a5435254c6ff8/src/app.js#L103-L132)。
 
@@ -759,13 +759,7 @@ Geminiは画像を認識することもできます。添付した画像も認�
 const prompt = message.content.slice(5);
 // Gemini APIに質問
 const result = await model.generateContent(prompt);
-// 生成完了まで待機
-const response = await result.response;
-// 生成されたテキストを取得
-const text = response.text();
-// 返信して終了
-await message.reply(text);
-return;
+// ...
 ```
 
 ```js {3-20}
@@ -795,7 +789,7 @@ const result = await model.generateContent(imageData ? [prompt, imageData] : pro
 
 ---
 
-## 発展: Gemini APIで生成AIを使ってみる
+## 発展: Gemini APIで生成AIを使ってみる <twemoji-speech-balloon />
 
 `!ask`といっしょに画像を添付するとそれも認識してくれるようになりました。
 
@@ -837,6 +831,19 @@ YouTubeのスーパーチャット風の画像を生成してくれるBot。
 VCに入ったり退出したりすると、通知してくれるBot。
 
 ![](./images/example_vc.png)
+
+---
+
+## おまけ: 今までに作った・遭遇したBot達
+
+<br>
+
+### LaTeXBot
+
+$\LaTeX$の数式を画像にしてくれるBot。
+
+![](./images/example_tex.png)
+
 
 ---
 
